@@ -31,8 +31,7 @@
    </license>
 
    <requires>
-      <import plugin="com.mountainminds.eclemma.core"/>
-      <import plugin="com.mountainminds.eclemma.asm"/>
+      <import plugin="org.eclipse.eclemma.core"/>
       <import plugin="org.jacoco.agent"/>
       <import plugin="org.jacoco.core"/>
       <import plugin="org.jacoco.report"/>

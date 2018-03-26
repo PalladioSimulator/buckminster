@@ -22,12 +22,11 @@ import org.eclipse.buckminster.junit.JUnitCommand;
 import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-
-import com.mountainminds.eclemma.core.CoverageTools;
-import com.mountainminds.eclemma.core.ICoverageSession;
-import com.mountainminds.eclemma.core.ISessionExporter;
-import com.mountainminds.eclemma.core.ISessionExporter.ExportFormat;
-import com.mountainminds.eclemma.core.ISessionManager;
+import org.eclipse.eclemma.core.CoverageTools;
+import org.eclipse.eclemma.core.ICoverageSession;
+import org.eclipse.eclemma.core.ISessionExporter;
+import org.eclipse.eclemma.core.ISessionExporter.ExportFormat;
+import org.eclipse.eclemma.core.ISessionManager;
 
 public class Emma extends JUnitCommand {
 	private static final OptionDescriptor MERGE_DESCRIPTOR = new OptionDescriptor('m', "merge", OptionValueType.NONE); //$NON-NLS-1$
@@ -53,6 +52,14 @@ public class Emma extends JUnitCommand {
 	private String csv;
 
 	private String html;
+
+	private void export(ICoverageSession coverageSession, ExportFormat format, String destinationFile, IProgressMonitor monitor)
+			throws CoreException {
+		ISessionExporter exporter = CoverageTools.getExporter(coverageSession);
+		exporter.setDestination(destinationFile);
+		exporter.setFormat(format);
+		exporter.export(monitor);
+	}
 
 	@Override
 	protected String getLaunchMode() {
@@ -118,12 +125,5 @@ public class Emma extends JUnitCommand {
 			export(session, ExportFormat.HTMLZIP, htmlzip, monitor);
 
 		return result;
-	}
-
-	private void export(ICoverageSession coverageSession, ExportFormat format, String destinationFile, IProgressMonitor monitor) throws CoreException {
-		ISessionExporter exporter = CoverageTools.getExporter(coverageSession);
-		exporter.setDestination(destinationFile);
-		exporter.setFormat(format);
-		exporter.export(monitor);
 	}
 }
